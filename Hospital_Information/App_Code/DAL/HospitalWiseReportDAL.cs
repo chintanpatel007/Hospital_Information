@@ -8,11 +8,11 @@ using System.Linq;
 using System.Web;
 
 /// <summary>
-/// Summary description for DoctorDAL
+/// Summary description for HospitalWiseReportDAL
 /// </summary>
 namespace Hospital_Information.DAL
 {
-    public class DoctorDAL : DatabaseConfig
+    public class HospitalWiseReportDAL : DatabaseConfig
     {
         #region Local Variables
 
@@ -34,7 +34,7 @@ namespace Hospital_Information.DAL
 
         #region Constructor
 
-        public DoctorDAL()
+        public HospitalWiseReportDAL()
         {
             //
             // TODO: Add constructor logic here
@@ -44,7 +44,7 @@ namespace Hospital_Information.DAL
         #endregion Constructor
 
         #region Insert Opertaion
-        public Boolean Insert(DoctorENT entDoctor)
+        public Boolean Insert(HospitalWiseReportENT entHospitalWiseReport)
         {
             using (SqlConnection objConn = new SqlConnection(ConnectionString))
             {
@@ -55,22 +55,60 @@ namespace Hospital_Information.DAL
                     {
                         #region Prepare Command
                         objCmd.CommandType = CommandType.StoredProcedure;
-                        objCmd.CommandText = "PR_Doctor_Insert";
-                        objCmd.Parameters.Add("@DoctorID", SqlDbType.Int, 4).Direction = ParameterDirection.Output;
-                        objCmd.Parameters.Add("@DoctorName", SqlDbType.VarChar).Value = entDoctor.DoctorName;
-                        objCmd.Parameters.Add("@DoctorImage", SqlDbType.VarChar).Value = entDoctor.DoctorImage;
-                        objCmd.Parameters.Add("@DepartmentID", SqlDbType.Int).Value = entDoctor.DepartmentID;
-                        objCmd.Parameters.Add("@Experince", SqlDbType.Int).Value = entDoctor.Experince;
-                        objCmd.Parameters.Add("@UserName", SqlDbType.VarChar).Value = entDoctor.UserName;
-                        objCmd.Parameters.Add("@Password", SqlDbType.VarChar).Value = entDoctor.@Password;
+                        objCmd.CommandText = "PR_HospitalWiseReportr_Insert";
+                        objCmd.Parameters.Add("@HospitalWiseReportID", SqlDbType.Int, 4).Direction = ParameterDirection.Output;
+                        objCmd.Parameters.Add("@HospitalID", SqlDbType.Int).Value = entHospitalWiseReport.HospitalID;
+                        objCmd.Parameters.Add("@ReportID", SqlDbType.Int).Value = entHospitalWiseReport.ReportID;
                         #endregion Prepare Command
 
                         objCmd.ExecuteNonQuery();
 
-                        if (objCmd.Parameters["@DoctorID"] != null)
+                        if (objCmd.Parameters["@HospitalWiseReportID"] != null)
                         {
-                            entDoctor.DoctorID = Convert.ToInt32(objCmd.Parameters["@DoctorID"].Value);
+                            entHospitalWiseReport.HospitalWiseReportID = Convert.ToInt32(objCmd.Parameters["@HospitalWiseReportID"].Value);
                         }
+
+                        return true;
+                    }
+                    catch (SqlException sqlEx)
+                    {
+                        Message = sqlEx.InnerException.Message;
+                        return false;
+                    }
+                    catch (Exception ex)
+                    {
+                        Message = ex.InnerException.Message;
+                        return false;
+                    }
+                    finally
+                    {
+                        if (objConn.State == ConnectionState.Open)
+                        {
+                            objConn.Close();
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Insert Opertaion
+        
+        #region DeleteByHospitalID
+        public Boolean DeleteByHospitalID(SqlInt32 HospitalID)
+        {
+            using (SqlConnection objConn = new SqlConnection(ConnectionString))
+            {
+                objConn.Open();
+                using (SqlCommand objCmd = objConn.CreateCommand())
+                {
+                    try
+                    {
+                        #region Prepare Command
+                        objCmd.CommandType = CommandType.StoredProcedure;
+                        objCmd.CommandText = "PR_HospitalWiseReport_DeleteByHospitalID";
+                        objCmd.Parameters.Add("@HospitalID", SqlDbType.Int).Value = HospitalID;
+                        #endregion Prepare Command
+
+                        objCmd.ExecuteNonQuery();
 
                         return true;
                     }
@@ -95,24 +133,9 @@ namespace Hospital_Information.DAL
             }
 
         }
-        #endregion Insert Opertaion
-
-        #region Update Opertaion
-
-        #endregion Update Opertaion
-
-        #region Delete Opertaion
-
-        #endregion Delete Opertaion
+        #endregion Delete DeleteByHospitalID
 
         #region Select Opertaion
-
-        #region SelectAll
-        //public DataTable SelectAll()
-        //{
-
-        //}
-        #endregion SelectAll
 
         #region SelectByHospitalID
         public DataTable SelectByHospitalID(SqlInt32 HospitalID)
@@ -126,7 +149,7 @@ namespace Hospital_Information.DAL
                     {
                         #region Prepare Command
                         objCmd.CommandType = CommandType.StoredProcedure;
-                        objCmd.CommandText = "PR_Doctor_SelectByHospitalID";
+                        objCmd.CommandText = "PR_HospitalWiseReport_SelectByHospitalID";
                         objCmd.Parameters.Add("@HospitalID", SqlDbType.Int).Value = HospitalID;
                         #endregion Prepare Command
 
@@ -161,14 +184,6 @@ namespace Hospital_Information.DAL
 
         }
         #endregion SelectByHospitalID
-
-        #region SelectForDropDownList
-
-        #endregion SelectForDropDownList
-
-        #region SelectByPK
-
-        #endregion SelectByPK
 
         #endregion Select Opertaion
     }

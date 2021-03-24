@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Content/AdminPanel.master" AutoEventWireup="true" CodeFile="HospitalList.aspx.cs" Inherits="AdminPanel_Hospital_HospitalList" %>
+﻿<%@ Page Title="Hospital List - Hospital Information" Language="C#" MasterPageFile="~/Content/AdminPanel.master" AutoEventWireup="true" CodeFile="HospitalList.aspx.cs" Inherits="AdminPanel_Hospital_HospitalList" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="cphHead" Runat="Server">
     <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" />
@@ -38,7 +38,8 @@
                             <asp:BoundField DataField="Mobile" HeaderText="Mobile" ItemStyle-HorizontalAlign="Center" HeaderStyle-HorizontalAlign="Center" />
                             <asp:TemplateField ItemStyle-HorizontalAlign="Center" HeaderText="Actions">
                                 <ItemTemplate>
-                                    <asp:HyperLink ID="hlEdit" runat="server" CssClass="btn btn-pills btn-outline-primary" NavigateUrl='<%# "~/AdminPanel/Hospital/HospitalDetail.aspx?HospitalID=" + Eval("HospitalID").ToString() %>'><i class="uil uil-edit"></i></asp:HyperLink>
+                                    <asp:HyperLink ID="HyperLink1" runat="server" CssClass="btn btn-pills btn-outline-primary" NavigateUrl='<%# "~/AdminPanel/Hospital/HospitalDetail.aspx?HospitalID=" + Eval("HospitalID").ToString() %>'><i class="uil uil-eye"></i></asp:HyperLink>
+                                    <asp:HyperLink ID="hlEdit" runat="server" CssClass="btn btn-pills btn-outline-primary btn-ml-listPage" NavigateUrl='<%# "~/AdminPanel/Hospital/HospitalAddEdit.aspx?HospitalID=" + Eval("HospitalID").ToString() %>'><i class="uil uil-edit "></i></asp:HyperLink>
                                     <%--<asp:LinkButton ID="lbEdit" runat="server" CommandName="EditRecord" CommandArgument='<%# Eval("HospitalID") %>' CssClass="btn btn-pills btn-outline-primary"><i class="uil uil-edit"></i></asp:LinkButton>--%>
                                     <asp:LinkButton ID="lbDelete" runat="server" CommandName="DeleteRecord" CommandArgument='<%# Eval("HospitalID") %>' OnClientClick="return sweetAlertConfirm(this);" CssClass="btn btn-pills btn-outline-danger btn-ml-listPage"><i class="uil uil-trash-alt"></i></asp:LinkButton>
                                 </ItemTemplate>
@@ -56,7 +57,7 @@
         $(document).ready(function () {
             $('[id$=gvHospital]').prepend($("<thead></thead>").append($('[id$=gvHospital]').find("tr:first"))).DataTable({
                 "lengthMenu": [[5, 10, 15, 20, -1], [5, 10, 15, 20, "All"]],
-                "order": [[1, "asc"]],
+                "order": [[0, "asc"]],
                 "columns": [
                     null,
                     null,

@@ -47,6 +47,18 @@ namespace Hospital_Information
         }
         #endregion Fill DropDownList Speciality
 
+        #region Fill DropDownList Department -- Doctor Add/Edit
+        public static void fillDropDownListDepartment(DropDownList ddl)
+        {
+            DepartmentBAL balDepartment = new DepartmentBAL();
+            ddl.DataSource = balDepartment.SelectForDropDownList();
+            ddl.DataValueField = "DepartmentID";
+            ddl.DataTextField = "DepartmentName";
+            ddl.DataBind();
+            ddl.Items.Insert(0, new ListItem("Select Department", "-1"));
+        }
+        #endregion Fill DropDownList Department 
+
         #region Fill CheckBoxList Report -- Hospital Add/Edit
         public static void fillCheckBoxListReport(CheckBoxList Report)
         {

@@ -2,16 +2,15 @@
 using Hospital_Information.ENT;
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 using System.Web;
 
 /// <summary>
-/// Summary description for AdminBAL
+/// Summary description for HospitalWiseDoctorBAL
 /// </summary>
 namespace Hospital_Information.BAL
 {
-    public class AdminBAL
+    public class HospitalWiseDoctorBAL
     {
         #region Local Variables
 
@@ -33,7 +32,7 @@ namespace Hospital_Information.BAL
 
         #region Constructor
 
-        public AdminBAL()
+        public HospitalWiseDoctorBAL()
         {
             //
             // TODO: Add constructor logic here
@@ -43,48 +42,20 @@ namespace Hospital_Information.BAL
         #endregion Constructor
 
         #region Insert Opertaion
-        public Boolean Insert(AdminENT entAdmin)
+        public Boolean Insert(HospitalWiseDoctorENT entHospitalWiseDoctor)
         {
-            AdminDAL dalAdmin = new AdminDAL();
+            HospitalWiseDoctorDAL dalHospitalWiseDoctor = new HospitalWiseDoctorDAL();
 
-            if(dalAdmin.Insert(entAdmin))
+            if(dalHospitalWiseDoctor.Insert(entHospitalWiseDoctor))
             {
                 return true;
             }
             else
             {
-                Message = dalAdmin.Message;
+                Message = dalHospitalWiseDoctor.Message;
                 return false;
             }
         }
         #endregion Insert Opertaion
-
-        #region Update Opertaion
-
-        #endregion Update Opertaion
-
-        #region Delete Opertaion
-
-        #endregion Delete Opertaion
-
-        #region Select Opertaion
-
-        #region SelectAll
-        public DataTable SelectAll()
-        {
-            AdminDAL dalAdmin = new AdminDAL();
-            return dalAdmin.SelectAll();
-        }
-        #endregion SelectAll
-
-        #region SelectForDropDownList
-
-        #endregion SelectForDropDownList
-
-        #region SelectByPK
-
-        #endregion SelectByPK
-
-        #endregion Select Opertaion
     }
 }

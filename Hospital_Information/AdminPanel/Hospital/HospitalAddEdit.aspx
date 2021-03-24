@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Content/AdminPanel.master" AutoEventWireup="true" CodeFile="HospitalAddEdit.aspx.cs" Inherits="AdminPanel_Hospital_HospitalAddEdit" %>
+﻿<%@ Page Title="Hospital Add/Edit - Hospital Information" Language="C#" MasterPageFile="~/Content/AdminPanel.master" AutoEventWireup="true" CodeFile="HospitalAddEdit.aspx.cs" Inherits="AdminPanel_Hospital_HospitalAddEdit" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="cphHead" runat="Server">
     <!-- Select2 -->
@@ -15,6 +15,19 @@
                 includeSelectAllOption: true
             });
         });
+
+        function ValidateReport(source, args) {
+            var chkListModules = document.getElementById('<%= chlReport.ClientID %>');
+            var chkListinputs = chkListModules.getElementsByTagName("input");
+            for (var i = 0; i < chkListinputs.length; i++) {
+                if (chkListinputs[i].checked) {
+                    args.IsValid = true;
+                    return;
+                }
+            }
+            args.IsValid = false;
+        }
+
     </script>
 
 </asp:Content>
@@ -32,10 +45,10 @@
         <div class="col-md-12 mt-4">
             <div class="card border-0 p-4 rounded shadow">
 
-
-
-                <div class="row mt-4" <%--data-masonry='{"percentPosition": true }'--%>>
-
+                <div class="row mt-4">
+                    <div class="col-md-12 mb-3">
+                        <asp:Label ID="lblErrorMessage" runat="server" CssClass="text-danger"></asp:Label>
+                    </div>
                     <div class="col-md-6 mb-3">
 
                         <div class="mb-3 row">
@@ -111,16 +124,14 @@
                             </div>
                             <div class="col-sm-8">
                                 <asp:CheckBoxList ID="chlReport" runat="server" RepeatDirection="Horizontal" RepeatColumns="2" CellPadding="5" CssClass="chlLabel"></asp:CheckBoxList>
+                                <asp:CustomValidator runat="server" ID="cvReport" ClientValidationFunction="ValidateReport" ErrorMessage="Please Select at least one Report" ValidationGroup="HospitalForm"></asp:CustomValidator>
                             </div>
                         </div>
 
                     </div>
 
-
-
-
                     <div class="col-md-12 mb-3" style="text-align: center">
-                        <asp:Button ID="btnSave" runat="server" Text="Save" CssClass="btn btn-primary" />
+                        <asp:Button ID="btnSave" runat="server" Text="Save" CssClass="btn btn-primary" OnClick="btnSave_Click" ValidationGroup="HospitalForm" />
                         <asp:LinkButton ID="lbCancel" runat="server" CssClass="btn btn-danger btn-ml" OnClick="lbCancel_Click">Cancel</asp:LinkButton>
                     </div>
 

@@ -8,11 +8,11 @@ using System.Linq;
 using System.Web;
 
 /// <summary>
-/// Summary description for DoctorBAL
+/// Summary description for HospitalWiseReportBAL
 /// </summary>
 namespace Hospital_Information.BAL
 {
-    public class DoctorBAL
+    public class HospitalWiseReportBAL
     {
         #region Local Variables
 
@@ -34,7 +34,7 @@ namespace Hospital_Information.BAL
 
         #region Constructor
 
-        public DoctorBAL()
+        public HospitalWiseReportBAL()
         {
             //
             // TODO: Add constructor logic here
@@ -44,54 +44,48 @@ namespace Hospital_Information.BAL
         #endregion Constructor
 
         #region Insert Opertaion
-        public Boolean Insert(DoctorENT entDoctor)
+        public Boolean Insert(HospitalWiseReportENT entHospitalWiseReport)
         {
-            DoctorDAL DALDoctor = new DoctorDAL();
+            HospitalWiseReportDAL dalHospitalWiseReport = new HospitalWiseReportDAL();
 
-            if(DALDoctor.Insert(entDoctor))
+            if(dalHospitalWiseReport.Insert(entHospitalWiseReport))
             {
                 return true;
             }
             else
             {
-                Message = DALDoctor.Message;
+                Message = dalHospitalWiseReport.Message;
                 return false;
             }
         }
         #endregion Insert Opertaion
 
-        #region Update Opertaion
+        #region DeleteByHospitalID
+        public Boolean DeleteByHospitalID(SqlInt32 HospitalID)
+        {
+            HospitalWiseReportDAL dalHospitalWiseReport = new HospitalWiseReportDAL();
 
-        #endregion Update Opertaion
-
-        #region Delete Opertaion
-
-        #endregion Delete Opertaion
+            if (dalHospitalWiseReport.DeleteByHospitalID(HospitalID))
+            {
+                return true;
+            }
+            else
+            {
+                Message = dalHospitalWiseReport.Message;
+                return false;
+            }
+        }
+        #endregion DeleteByHospitalID
 
         #region Select Opertaion
-
-        #region SelectAll
-        //public DataTable SelectAll()
-        //{
-
-        //}
-        #endregion SelectAll
 
         #region SelectByHospitalID
         public DataTable SelectByHospitalID(SqlInt32 HospitalID)
         {
-            DoctorDAL dalDoctor = new DoctorDAL();
-            return dalDoctor.SelectByHospitalID(HospitalID);
+            HospitalWiseReportDAL dalHospitalWiseReport = new HospitalWiseReportDAL();
+            return dalHospitalWiseReport.SelectByHospitalID(HospitalID);
         }
         #endregion SelectByHospitalID
-
-        #region SelectForDropDownList
-
-        #endregion SelectForDropDownList
-
-        #region SelectByPK
-
-        #endregion SelectByPK
 
         #endregion Select Opertaion
     }

@@ -35,6 +35,11 @@
     width: 14rem;
     border: 1px solid #d7d7d7;
 }
-.chlLabel label{
-    margin-left : 6px !important;
+.imagePreviewAdmin {
+    border-radius: 7px;
+    width: 16rem;
+    border: 1px solid #d7d7d7;
+}
+.chlLabel label {
+    margin-left: 6px !important;
 }

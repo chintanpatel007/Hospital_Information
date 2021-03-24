@@ -37,25 +37,22 @@
 
 
                 <div class="row mt-4">
-
+                    <div class="col-md-8 offset-md-2 mb-3">
+                        <asp:Label ID="lblErrorMessage" runat="server" CssClass="text-danger"></asp:Label>
+                    </div>
                     <div class="col-md-6 offset-md-1 row">
                         <div class="col-sm-4 form-label labelAlign">
-                            Name
+                            Name <span class="text-danger">*</span>
                         </div>
                         <div class="col-sm-8 mb-3">
                             <asp:TextBox ID="txtDoctorName" runat="server" CssClass="form-control" placeholder="Enter Doctor Name"></asp:TextBox>
                         </div>
 
                         <div class="col-sm-4 form-label labelAlign">
-                            Department
+                            Department <span class="text-danger">*</span>
                         </div>
                         <div class="col-sm-8 mb-3">
                             <asp:DropDownList ID="ddlDepartment" runat="server" CssClass="form-control department-name select2input">
-                                <asp:ListItem Value="EY">Eye Care</asp:ListItem>
-                                <asp:ListItem Value="G">Gynecologist</asp:ListItem>
-                                <asp:ListItem Value="P">Psychotherapist</asp:ListItem>
-                                <asp:ListItem Value="D">Dentist</asp:ListItem>
-                                <asp:ListItem Value="U">Urologist</asp:ListItem>
                             </asp:DropDownList>
                         </div>
 
@@ -64,6 +61,7 @@
                         </div>
                         <div class="col-sm-8 mb-3">
                             <asp:TextBox ID="txtExperince" runat="server" CssClass="form-control" TextMode="Number"></asp:TextBox>
+                            <%--<asp:RegularExpressionValidator ID="revExperince" ControlToValidate="txtExperince" runat="server" ErrorMessage="Only Numbers allowed" ValidationExpression="\d+"></asp:RegularExpressionValidator>--%>
                         </div>
 
                         <div class="col-sm-4 form-label labelAlign">
@@ -73,37 +71,38 @@
                             <asp:FileUpload ID="fuDoctorImage" runat="server" CssClass="form-control" onchange="ImagePreview(this);" accept=".png,.jpg,.jpeg," />
                         </div>
                     </div>
-                    
 
                     <div class="col-md-4 mb-3" style="text-align: center !important">
                         <asp:Image ID="imgDoctorImagePreview" runat="server" ImageUrl="~/UploadedData/Images/Avtar/avatar5.png" CssClass="imagePreview" />
                     </div>
 
-                    <div class="col-md-6 offset-md-1 row mb-3">
-                        <div class="col-sm-4 form-label labelAlign">
-                            UserName
-                        </div>
-                        <div class="col-sm-8 mb-3">
-                            <asp:TextBox ID="TextBox1" runat="server" CssClass="form-control"></asp:TextBox>
-                        </div>
+                    <asp:Panel ID="pnlLoginDetail" runat="server">
+                        <div class="col-md-6 offset-md-1 row mb-3">
+                            <div class="col-sm-4 form-label labelAlign">
+                                UserName <span class="text-danger">*</span>
+                            </div>
+                            <div class="col-sm-8 mb-3">
+                                <asp:TextBox ID="txtUserName" runat="server" CssClass="form-control"></asp:TextBox>
+                            </div>
 
-                        <div class="col-sm-4 form-label labelAlign">
-                            Password
-                        </div>
-                        <div class="col-sm-8 mb-3">
-                            <asp:TextBox ID="TextBox2" runat="server" CssClass="form-control" TextMode="Password"></asp:TextBox>
-                        </div>
+                            <div class="col-sm-4 form-label labelAlign">
+                                Password <span class="text-danger">*</span>
+                            </div>
+                            <div class="col-sm-8 mb-3">
+                                <asp:TextBox ID="txtPassword" runat="server" CssClass="form-control" TextMode="Password"></asp:TextBox>
+                            </div>
 
-                        <div class="col-sm-4 form-label labelAlign">
-                            Re-type Password
+                            <div class="col-sm-4 form-label labelAlign">
+                                Re-type Password <span class="text-danger">*</span>
+                            </div>
+                            <div class="col-sm-8 mb-3">
+                                <asp:TextBox ID="txtReTypePassword" runat="server" CssClass="form-control" TextMode="Password"></asp:TextBox>
+                            </div>
                         </div>
-                        <div class="col-sm-8 mb-3">
-                            <asp:TextBox ID="TextBox3" runat="server" CssClass="form-control" TextMode="Password"></asp:TextBox>
-                        </div>
-                    </div>
+                    </asp:Panel>
 
                     <div class="col-md-12 mb-3" style="text-align: center">
-                        <asp:Button ID="btnSave" runat="server" Text="Save" CssClass="btn btn-primary" />
+                        <asp:Button ID="btnSave" runat="server" Text="Save" CssClass="btn btn-primary" OnClick="btnSave_Click" />
                         <asp:LinkButton ID="lbCancel" runat="server" CssClass="btn btn-danger btn-ml" OnClick="lbCancel_Click">Cancel</asp:LinkButton>
                     </div>
 
