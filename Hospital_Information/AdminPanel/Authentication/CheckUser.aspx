@@ -48,8 +48,8 @@
 
                                 <div class="row">
                                     <div class="col-md-12" style="text-align:center">
-                                        <asp:HyperLink ID="hlAdmin" runat="server" CssClass="btn btn-outline-primary btn-lg btn-pills">Admin</asp:HyperLink>
-                                        <asp:HyperLink ID="hlDoctor" runat="server" CssClass="btn btn-outline-primary btn-lg btn-pills ms-3">Doctor</asp:HyperLink>
+                                        <asp:LinkButton ID="lbAdmin" runat="server" CssClass="btn btn-outline-primary btn-lg btn-pills" OnClick="lbAdmin_Click">Admin</asp:LinkButton>
+                                        <asp:LinkButton ID="lbDoctor" runat="server" CssClass="btn btn-outline-primary btn-lg btn-pills ms-3" OnClick="lbDoctor_Click">Doctor</asp:LinkButton>
                                     </div>
                                 </div>
 

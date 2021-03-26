@@ -42,12 +42,14 @@
     <div class="card bg-white rounded shadow overflow-hidden mt-4 border-0">
         <div class="p-2 bg-primary bg-gradient">
             <div class="mt-1 pt-3 text-center row">
-                <h4 class="mt-2 mb-2 col-md-8 offset-md-2" style="color: white">
+                <h4 class="mt-2 mb-2 col-md-6 offset-md-3" style="color: white">
                     <asp:Label ID="lblHospitalName" runat="server"></asp:Label>
                     (<asp:Label ID="lblSpeciality" runat="server"></asp:Label>)
                 </h4>
-                <div class="col-md-2 backBtn">
-                    <asp:Button ID="btnBack" runat="server" Text="Back" CssClass="btn btn-dark btn-pills m-1 " OnClick="btnBack_Click" />
+                <div class="col-md-3 backBtn">
+                    <asp:LinkButton ID="lbEditHospital" runat="server" CssClass="btn btn-dark btn-pills " OnClick="lbEditHospital_Click"><i class="uil uil-edit"></i> Edit</asp:LinkButton>
+                    <asp:LinkButton ID="lbBack" runat="server" CssClass="btn btn-dark btn-pills m-1 ms-3" OnClick="lbBack_Click"><i class="uil uil-step-backward"></i> Back</asp:LinkButton>
+                    <%--<asp:Button ID="btnBack" runat="server" Text="Back" CssClass="btn btn-dark btn-pills m-1 ms-3" OnClick="btnBack_Click" />--%>
                 </div>
             </div>
         </div>
@@ -86,7 +88,7 @@
 
                     <div class="row row-cols-xl-5">
 
-                        <asp:Repeater ID="rptDoctors" runat="server" OnItemCommand="rptDoctors_ItemCommand">
+                        <asp:Repeater ID="rptDoctors" runat="server" OnItemCommand="rptDoctors_ItemCommand" OnItemDataBound="rptDoctors_ItemDataBound">
                             <ItemTemplate>
 
 
@@ -96,6 +98,9 @@
                                             <asp:Image ID="imgDoctorImage" runat="server" ImageUrl='<%# Eval("DoctorImage") %>' CssClass="img-fluid" />
                                         </div>
                                         <div class="card-body text-center">
+
+                                            <asp:HiddenField ID="hfDoctorID" runat="server" Value='<%# Eval("DoctorID") %>'/>
+
                                             <a class="title text-dark h5 d-block mb-0"><%# Eval("DoctorName") %></a>
                                             <small class="text-muted speciality"><%# Eval("DepartmentName") %></small><br />
                                             <small class="text-muted speciality">Experence : <%# Eval("Experince") %> years</small>
@@ -284,24 +289,24 @@
                             <div class="mb-3 row">
                                 <label class="form-label col-md-4 offset-md-1 labelAlign">Old Password <span class="text-danger">*</span></label>
                                 <div class="col-md-6">
-                                    <asp:TextBox ID="txtOldPasssword" runat="server" class="form-control" placeholder="Enter Old Password"></asp:TextBox>
-                                    <%--                                    <asp:RequiredFieldValidator ID="rfvCity" runat="server" ErrorMessage="Enter City" ControlToValidate="txtCity" ValidationGroup="CityForm" CssClass="text-danger"></asp:RequiredFieldValidator>--%>
+                                    <asp:TextBox ID="txtOldPasssword" runat="server" class="form-control" placeholder="Enter Old Password" TextMode="Password"></asp:TextBox>
+                                    <i id="oldPasswordStatus" class="uil uil-eye-slash passwordStatus" style="bottom : 2px !important"></i>
                                 </div>
                             </div>
 
                             <div class="mb-3 row">
                                 <label class="form-label col-md-4 offset-md-1 labelAlign">New Password <span class="text-danger">*</span></label>
                                 <div class="col-md-6">
-                                    <asp:TextBox ID="TextBox1" runat="server" class="form-control" placeholder="Enter New Password"></asp:TextBox>
-                                    <%--                                    <asp:RequiredFieldValidator ID="rfvCity" runat="server" ErrorMessage="Enter City" ControlToValidate="txtCity" ValidationGroup="CityForm" CssClass="text-danger"></asp:RequiredFieldValidator>--%>
+                                    <asp:TextBox ID="txtNewPassword" runat="server" class="form-control" placeholder="Enter New Password" TextMode="Password"></asp:TextBox>
+                                    <i id="newPasswordStatus" class="uil uil-eye-slash passwordStatus" style="bottom : 2px !important"></i>
                                 </div>
                             </div>
 
                             <div class="mb-3 row">
                                 <label class="form-label col-md-4 offset-md-1 labelAlign">Re-type New Password <span class="text-danger">*</span></label>
                                 <div class="col-md-6">
-                                    <asp:TextBox ID="TextBox2" runat="server" class="form-control" placeholder="Enter Re-type New Password"></asp:TextBox>
-                                    <%--                                    <asp:RequiredFieldValidator ID="rfvCity" runat="server" ErrorMessage="Enter City" ControlToValidate="txtCity" ValidationGroup="CityForm" CssClass="text-danger"></asp:RequiredFieldValidator>--%>
+                                    <asp:TextBox ID="txtReTypeNewPassword" runat="server" class="form-control" placeholder="Enter Re-type New Password" TextMode="Password"></asp:TextBox>
+                                    <i id="reTypenewPasswordStatus" class="uil uil-eye-slash passwordStatus" style="bottom : 2px !important"></i>
                                 </div>
                             </div>
 
@@ -321,5 +326,61 @@
 
 </asp:Content>
 <asp:Content ID="Content5" ContentPlaceHolderID="cphScript" runat="Server">
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            $("#oldPasswordStatus").click(function () {
+
+                if ($('[id$=txtOldPasssword]').attr("type") == "password") {
+                    //Change type attribute
+                    $('[id$=txtOldPasssword]').attr("type", "text");
+                    $("#oldPasswordStatus").removeClass('uil uil-eye-slash').addClass('uil uil-eye');
+                }
+                else {
+                    //Change type attribute
+                    $('[id$=txtOldPasssword]').attr("type", "password");
+                    $("#oldPasswordStatus").removeClass('uil uil-eye').addClass('uil uil-eye-slash');
+                }
+            });
+
+        });
+
+        $(document).ready(function () {
+
+            $("#newPasswordStatus").click(function () {
+
+                if ($('[id$=txtNewPassword]').attr("type") == "password") {
+                    //Change type attribute
+                    $('[id$=txtNewPassword]').attr("type", "text");
+                    $("#newPasswordStatus").removeClass('uil uil-eye-slash').addClass('uil uil-eye');
+                }
+                else {
+                    //Change type attribute
+                    $('[id$=txtNewPassword]').attr("type", "password");
+                    $("#newPasswordStatus").removeClass('uil uil-eye').addClass('uil uil-eye-slash');
+                }
+            });
+
+        });
+
+        $(document).ready(function () {
+
+            $("#reTypenewPasswordStatus").click(function () {
+
+                if ($('[id$=txtReTypeNewPassword]').attr("type") == "password") {
+                    //Change type attribute
+                    $('[id$=txtReTypeNewPassword]').attr("type", "text");
+                    $("#reTypenewPasswordStatus").removeClass('uil uil-eye-slash').addClass('uil uil-eye');
+                }
+                else {
+                    //Change type attribute
+                    $('[id$=txtReTypeNewPassword]').attr("type", "password");
+                    $("#reTypenewPasswordStatus").removeClass('uil uil-eye').addClass('uil uil-eye-slash');
+                }
+            });
+
+        });
+    </script>
 </asp:Content>
 

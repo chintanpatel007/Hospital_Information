@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Data.SqlTypes;
 using System.Linq;
 using System.Web;
 
@@ -160,6 +161,89 @@ namespace Hospital_Information.DAL
         #region SelectByPK
 
         #endregion SelectByPK
+
+        #region Select By UserName Password
+        public AdminENT SelectByUserNamePassword(SqlString UserName, SqlString Password)
+        {
+            using (SqlConnection objConn = new SqlConnection(ConnectionString))
+            {
+                objConn.Open();
+                using (SqlCommand objCmd = objConn.CreateCommand())
+                {
+                    try
+                    {
+                        #region Prepare Command
+                        objCmd.CommandType = CommandType.StoredProcedure;
+                        objCmd.CommandText = "PR_Admin_SelectByUserNamePassword";
+                        objCmd.Parameters.Add("@UserName", SqlDbType.VarChar).Value = UserName;
+                        objCmd.Parameters.Add("@Password", SqlDbType.VarChar).Value = Password;
+                        #endregion Prepare Command
+
+                        #region ReadData and Set Controls
+                        AdminENT entAdmin = new AdminENT();
+
+                        using (SqlDataReader objSDR = objCmd.ExecuteReader())
+                        {
+                            if (objSDR.HasRows == true)
+                            {
+                                while (objSDR.Read())
+                                {
+                                    if (!objSDR["AdminID"].Equals(DBNull.Value))
+                                    {
+                                        entAdmin.AdminID = Convert.ToInt32(objSDR["AdminID"]);
+                                    }
+                                    if (!objSDR["AdminName"].Equals(DBNull.Value))
+                                    {
+                                        entAdmin.AdminName = Convert.ToString(objSDR["AdminName"]);
+                                    }
+                                    if (!objSDR["AdminImage"].Equals(DBNull.Value))
+                                    {
+                                        entAdmin.AdminImage = Convert.ToString(objSDR["AdminImage"]);
+                                    }
+                                    if (!objSDR["Address"].Equals(DBNull.Value))
+                                    {
+                                        entAdmin.Address = Convert.ToString(objSDR["Address"]);
+                                    }
+                                    if (!objSDR["Email"].Equals(DBNull.Value))
+                                    {
+                                        entAdmin.Email = Convert.ToString(objSDR["Email"]);
+                                    }
+                                    if (!objSDR["Mobile"].Equals(DBNull.Value))
+                                    {
+                                        entAdmin.Mobile = Convert.ToString(objSDR["Mobile"]);
+                                    }
+                                    if (!objSDR["UserName"].Equals(DBNull.Value))
+                                    {
+                                        entAdmin.UserName = Convert.ToString(objSDR["UserName"]);
+                                    }
+                                }
+                            }
+                        }
+
+                        return entAdmin;
+                        #endregion ReadData and Set Controls
+                    }
+                    catch (SqlException sqlEx)
+                    {
+                        Message = sqlEx.InnerException.Message;
+                        return null;
+                    }
+                    catch (Exception ex)
+                    {
+                        Message = ex.InnerException.Message;
+                        return null;
+                    }
+                    finally
+                    {
+                        if (objConn.State == ConnectionState.Open)
+                        {
+                            objConn.Close();
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Select By UserName Password
 
         #endregion Select Opertaion
     }

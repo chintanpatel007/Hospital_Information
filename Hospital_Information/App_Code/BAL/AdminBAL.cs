@@ -3,6 +3,7 @@ using Hospital_Information.ENT;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlTypes;
 using System.Linq;
 using System.Web;
 
@@ -84,6 +85,14 @@ namespace Hospital_Information.BAL
         #region SelectByPK
 
         #endregion SelectByPK
+
+        #region Select By UserName Password
+        public AdminENT SelectByUserNamePassword(SqlString UserName, SqlString Password)
+        {
+            AdminDAL dalAdmin = new AdminDAL();
+            return dalAdmin.SelectByUserNamePassword(UserName, Password);
+        }
+        #endregion Select By UserName Password
 
         #endregion Select Opertaion
     }

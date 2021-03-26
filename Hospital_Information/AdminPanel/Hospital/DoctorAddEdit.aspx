@@ -57,7 +57,7 @@
                         </div>
 
                         <div class="col-sm-4 form-label labelAlign">
-                            Experince
+                            Experince <span class="text-danger">*</span>
                         </div>
                         <div class="col-sm-8 mb-3">
                             <asp:TextBox ID="txtExperince" runat="server" CssClass="form-control" TextMode="Number"></asp:TextBox>
@@ -90,6 +90,7 @@
                             </div>
                             <div class="col-sm-8 mb-3">
                                 <asp:TextBox ID="txtPassword" runat="server" CssClass="form-control" TextMode="Password"></asp:TextBox>
+                                <i id="passwordStatus" class="uil uil-eye-slash passwordStatus" style="bottom : 2px !important"></i>
                             </div>
 
                             <div class="col-sm-4 form-label labelAlign">
@@ -97,6 +98,7 @@
                             </div>
                             <div class="col-sm-8 mb-3">
                                 <asp:TextBox ID="txtReTypePassword" runat="server" CssClass="form-control" TextMode="Password"></asp:TextBox>
+                                <i id="reTypePasswordStatus" class="uil uil-eye-slash passwordStatus" style="bottom : 2px !important"></i>
                             </div>
                         </div>
                     </asp:Panel>
@@ -116,6 +118,46 @@
     </div>
 </asp:Content>
 <asp:Content ID="Content5" ContentPlaceHolderID="cphScript" runat="Server">
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            $("#passwordStatus").click(function () {
+
+                if ($('[id$=txtPassword]').attr("type") == "password") {
+                    //Change type attribute
+                    $('[id$=txtPassword]').attr("type", "text");
+                    $("#passwordStatus").removeClass('uil uil-eye-slash').addClass('uil uil-eye');
+                }
+                else {
+                    //Change type attribute
+                    $('[id$=txtPassword]').attr("type", "password");
+                    $("#passwordStatus").removeClass('uil uil-eye').addClass('uil uil-eye-slash');
+                }
+            });
+
+        });
+
+        $(document).ready(function () {
+
+            $("#reTypePasswordStatus").click(function () {
+
+                if ($('[id$=txtReTypePassword]').attr("type") == "password") {
+                    //Change type attribute
+                    $('[id$=txtReTypePassword]').attr("type", "text");
+                    $("#reTypePasswordStatus").removeClass('uil uil-eye-slash').addClass('uil uil-eye');
+                }
+                else {
+                    //Change type attribute
+                    $('[id$=txtReTypePassword]').attr("type", "password");
+                    $("#reTypePasswordStatus").removeClass('uil uil-eye').addClass('uil uil-eye-slash');
+                }
+            });
+
+        });
+    </script>
+
     <!-- javascript -->
     <script src="<%=ResolveClientUrl("~/Content/AdminPanel/js/select2.min.js") %>"></script>
     <script src="<%=ResolveClientUrl("~/Content/AdminPanel/js/select2.init.js") %>"></script>

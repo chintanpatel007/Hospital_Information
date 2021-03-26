@@ -43,3 +43,12 @@
 .chlLabel label {
     margin-left: 6px !important;
 }
+.passwordStatus {
+    position: absolute;
+    font-size: 23px;
+    right: 21px;
+    /*bottom: 17px;*/
+    color: #adadad;
+    /*padding-right: 15px;
+    padding-bottom: 15px;*/
+}

@@ -13,7 +13,14 @@ public partial class AdminPanel_Admin_AdminAddEdit : System.Web.UI.Page
     #region Page Load
     protected void Page_Load(object sender, EventArgs e)
     {
-        if(!Page.IsPostBack)
+        #region Check Valid User
+        if (Session["UserID"] == null)
+        {
+            Response.Redirect("~/AdminPanel/Authentication/CheckUser.aspx?url=" + Server.UrlEncode(Request.Url.AbsoluteUri));
+        }
+        #endregion Check Valid User
+
+        if (!Page.IsPostBack)
         {
             if (Request.QueryString["AdminID"] == null)
             {

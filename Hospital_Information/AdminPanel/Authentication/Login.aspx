@@ -17,6 +17,9 @@
     <link href="<%=ResolveClientUrl("~/Content/AdminPanel/css/remixicon.css") %>" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="<%=ResolveClientUrl("~/Content/AdminPanel/css/line.css") %>" />
 
+    <!-- jquery -->
+    <script src="<%=ResolveClientUrl("~/Content/AdminPanel/js/jquery-3.5.1.min.js") %>"></script>
+
     <!-- Css -->
     <link href="<%=ResolveClientUrl("~/Content/AdminPanel/css/style.min.css") %>" rel="stylesheet" type="text/css" />
     <!-- custom Css -->
@@ -26,6 +29,9 @@
         .loginTitleLogo {
             height: 28px;
             margin: 10px;
+        }
+        .btn-primary {
+            height: 29px;
         }
     </style>
 </head>
@@ -44,9 +50,15 @@
                         </div>
                         <div class="card login-page bg-white shadow mt-4 rounded border-0">
                             <div class="card-body">
-                                <h4 class="text-center">Sign In</h4>
-
-                                <div class="row">
+                                <h4 class="text-center" style="font-weight:400 !important">
+                                    Login to 
+                                    <asp:Label ID="lblTitle" runat="server" CssClass="fw-bold"></asp:Label>
+                                    Panel
+                                </h4>
+                                <div class="mt-3 mb-3">
+                                    <asp:Label ID="lblErrorMessage" runat="server" CssClass="text-danger"></asp:Label>
+                                </div>
+                                <div class="row mt-4 mb-2">
                                     <div class="col-lg-12">
                                         <div class="mb-3">
                                             <label class="form-label">Your Email <span class="text-danger">*</span></label>
@@ -58,47 +70,14 @@
                                         <div class="mb-3">
                                             <label class="form-label">Password <span class="text-danger">*</span></label>
                                             <asp:TextBox ID="txtPassword" runat="server" CssClass="form-control" placeholder="Enter Password" TextMode="Password"></asp:TextBox>
+                                            <i id="passwordStatus" class="uil uil-eye-slash passwordStatus" style="bottom: 17px !important"></i>
                                         </div>
                                     </div>
 
-                                    <div class="col-lg-12">
-                                        <div class="d-flex justify-content-between">
-                                            <%--<div class="mb-3">
-                                                <div class="form-check">
-                                                    <input class="form-check-input align-middle" type="checkbox" value="" id="remember-check">
-                                                    <label class="form-check-label" for="remember-check">Remember me</label>
-                                                </div>
-                                            </div>--%>
-                                            <%--<asp:HyperLink ID="hlForgottenPassword" runat="server">Forgot password ?</asp:HyperLink>
-                                            <a href="forgot-password.html" class="text-dark h6 mb-0">Forgot password ?</a>--%>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-12 mb-0" style="text-align: center">
-                                        <asp:Button ID="Button1" runat="server" Text="Login" CssClass="btn btn-primary" />
+                                    <div class="col-lg-12 mt-2 mb-0" style="text-align: center">
+                                        <asp:Button ID="btnLogin" runat="server" Text="Login" CssClass="btn btn-info" OnClick="btnLogin_Click" />
                                     </div>
 
-                                    <%--<div class="col-lg-12 mt-3 text-center">
-                                        <h6 class="text-muted">Or</h6>
-                                    </div>
-                                    <!--end col-->
-
-                                    <div class="col-6 mt-3">
-                                        <div class="d-grid">
-                                            <a href="#" class="btn btn-soft-primary"><i class="uil uil-facebook"></i>Facebook</a>
-                                        </div>
-                                    </div>
-                                    <!--end col-->
-
-                                    <div class="col-6 mt-3">
-                                        <div class="d-grid">
-                                            <a href="#" class="btn btn-soft-primary"><i class="uil uil-google"></i>Google</a>
-                                        </div>
-                                    </div>
-                                    <!--end col-->
-
-                                    <div class="col-12 text-center">
-                                        <p class="mb-0 mt-3"><small class="text-dark me-2">Don't have an account ?</small> <a href="signup.html" class="text-dark fw-bold">Sign Up</a></p>
-                                    </div>--%>
                                 </div>
 
                             </div>
@@ -114,6 +93,27 @@
         <!--end section-->
         <!-- Hero End -->
     </form>
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            $("#passwordStatus").click(function () {
+
+                if ($('[id$=txtPassword]').attr("type") == "password") {
+                    //Change type attribute
+                    $('[id$=txtPassword]').attr("type", "text");
+                    $("#passwordStatus").removeClass('uil uil-eye-slash').addClass('uil uil-eye');
+                }
+                else {
+                    //Change type attribute
+                    $('[id$=txtPassword]').attr("type", "password");
+                    $("#passwordStatus").removeClass('uil uil-eye').addClass('uil uil-eye-slash');
+                }
+            });
+
+        });
+    </script>
 
     <!-- javascript -->
     <script src="<%=ResolveClientUrl("~/Content/AdminPanel/js/bootstrap.bundle.min.js") %>"></script>

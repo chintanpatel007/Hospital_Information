@@ -93,6 +93,14 @@ namespace Hospital_Information.BAL
 
         #endregion SelectByPK
 
+        #region Select By UserName Password
+        public DoctorENT SelectByUserNamePassword(SqlString UserName, SqlString Password)
+        {
+            DoctorDAL dalDoctor = new DoctorDAL();
+            return dalDoctor.SelectByUserNamePassword(UserName, Password);
+        }
+        #endregion Select By UserName Password
+
         #endregion Select Opertaion
     }
 }

@@ -15,7 +15,14 @@ public partial class AdminPanel_Hospital_HospitalAddEdit : System.Web.UI.Page
     #region Page Load
     protected void Page_Load(object sender, EventArgs e)
     {
-        if(!Page.IsPostBack)
+        #region Check Valid User
+        if (Session["UserID"] == null)
+        {
+            Response.Redirect("~/AdminPanel/Authentication/CheckUser.aspx?url=" + Server.UrlEncode(Request.Url.AbsoluteUri));
+        }
+        #endregion Check Valid User
+
+        if (!Page.IsPostBack)
         {
             CommonFillMethods.fillDropDownListCity(ddlCity);
             CommonFillMethods.fillDropDownListSpeciality(ddlSpeciality);
@@ -36,7 +43,16 @@ public partial class AdminPanel_Hospital_HospitalAddEdit : System.Web.UI.Page
     #region Button : Cancel
     protected void lbCancel_Click(object sender, EventArgs e)
     {
-        Response.Redirect("~/AdminPanel/Hospital/HospitalList.aspx");
+        string ReturnUrl = Convert.ToString(Request.QueryString["returnUrl"]);
+
+        if (!string.IsNullOrEmpty(ReturnUrl))
+        {
+            Response.Redirect(ReturnUrl);
+        }
+        else
+        {
+            Response.Redirect("~/AdminPanel/Hospital/HospitalList.aspx");
+        }
     }
     #endregion Button : Cancel
 

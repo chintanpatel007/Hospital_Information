@@ -170,6 +170,85 @@ namespace Hospital_Information.DAL
 
         #endregion SelectByPK
 
+        #region Select By UserName Password
+        public DoctorENT SelectByUserNamePassword(SqlString UserName, SqlString Password)
+        {
+            using (SqlConnection objConn = new SqlConnection(ConnectionString))
+            {
+                objConn.Open();
+                using (SqlCommand objCmd = objConn.CreateCommand())
+                {
+                    try
+                    {
+                        #region Prepare Command
+                        objCmd.CommandType = CommandType.StoredProcedure;
+                        objCmd.CommandText = "PR_Doctor_SelectByUserNamePassword";
+                        objCmd.Parameters.Add("@UserName", SqlDbType.VarChar).Value = UserName;
+                        objCmd.Parameters.Add("@Password", SqlDbType.VarChar).Value = Password;
+                        #endregion Prepare Command
+
+                        #region ReadData and Set Controls
+                        DoctorENT entDoctor = new DoctorENT();
+
+                        using (SqlDataReader objSDR = objCmd.ExecuteReader())
+                        {
+                            if (objSDR.HasRows == true)
+                            {
+                                while (objSDR.Read())
+                                {
+                                    if (!objSDR["DoctorID"].Equals(DBNull.Value))
+                                    {
+                                        entDoctor.DoctorID = Convert.ToInt32(objSDR["DoctorID"]);
+                                    }
+                                    if (!objSDR["DoctorName"].Equals(DBNull.Value))
+                                    {
+                                        entDoctor.DoctorName = Convert.ToString(objSDR["DoctorName"]);
+                                    }
+                                    if (!objSDR["DoctorImage"].Equals(DBNull.Value))
+                                    {
+                                        entDoctor.DoctorImage = Convert.ToString(objSDR["DoctorImage"]);
+                                    }
+                                    if (!objSDR["DepartmentID"].Equals(DBNull.Value))
+                                    {
+                                        entDoctor.DepartmentID = Convert.ToInt32(objSDR["DepartmentID"]);
+                                    }
+                                    if (!objSDR["Experince"].Equals(DBNull.Value))
+                                    {
+                                        entDoctor.Experince = Convert.ToInt32(objSDR["Experince"]);
+                                    }
+                                    if (!objSDR["UserName"].Equals(DBNull.Value))
+                                    {
+                                        entDoctor.UserName = Convert.ToString(objSDR["UserName"]);
+                                    }
+                                }
+                            }
+                        }
+
+                        return entDoctor;
+                        #endregion ReadData and Set Controls
+                    }
+                    catch (SqlException sqlEx)
+                    {
+                        Message = sqlEx.InnerException.Message;
+                        return null;
+                    }
+                    catch (Exception ex)
+                    {
+                        Message = ex.InnerException.Message;
+                        return null;
+                    }
+                    finally
+                    {
+                        if (objConn.State == ConnectionState.Open)
+                        {
+                            objConn.Close();
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Select By UserName Password
+
         #endregion Select Opertaion
     }
 }
