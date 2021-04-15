@@ -69,5 +69,27 @@ namespace Hospital_Information
             Report.DataBind();
         }
         #endregion Fill DropDownList Speciality
+
+        #region Fill CheckBoxList City -- Hospital List Page Filter
+        public static void fillCheckBoxListCity(CheckBoxList chkl)
+        {
+            CityBAL balCity = new CityBAL();
+            chkl.DataSource = balCity.SelectForDropDownList();
+            chkl.DataValueField = "CityID";
+            chkl.DataTextField = "CityName";
+            chkl.DataBind();
+        }
+        #endregion Fill CheckBoxList City -- Hospital List Page Filter
+
+        #region Fill CheckBoxList Speciality -- Hospital List Page Filter
+        public static void fillCheckBoxListSpeciality(CheckBoxList chkl)
+        {
+            SpecialityBAL balSpeciality = new SpecialityBAL();
+            chkl.DataSource = balSpeciality.SelectForDropDownList();
+            chkl.DataValueField = "SpecialityID";
+            chkl.DataTextField = "SpecialityName";
+            chkl.DataBind();
+        }
+        #endregion Fill CheckBoxList Speciality -- Hospital List Page Filter
     }
 }

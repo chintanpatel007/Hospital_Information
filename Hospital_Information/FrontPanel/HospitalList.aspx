@@ -1,9 +1,15 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Content/FrontPanel.master" AutoEventWireup="true" CodeFile="HospitalList.aspx.cs" Inherits="FrontPanel_HospitalList" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Content/FrontPanel.master" AutoEventWireup="true" CodeFile="HospitalList.aspx.cs" Inherits="FrontPanel_HospitalList" MaintainScrollPositionOnPostback="true" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="cphhead" runat="Server">
+    <link href="<%=ResolveClientUrl("~/Content/Pagination/pagination.css") %>" rel="stylesheet">
+
     <style type="text/css">
         #topnav {
             background-color: #3c3c3c !important;
+        }
+
+        td label {
+            margin-left: 10px !important;
         }
     </style>
     <script type="text/javascript">
@@ -65,26 +71,14 @@
                             </div>
                             <!-- SEARCH -->
 
-
-
                             <!-- TAG CLOUDS -->
                             <div class="widget mb-4 pb-2">
                                 <h5 class="widget-title">City</h5>
-                                <%--<div class="tagcloud mt-4">
-                                    <a href="jvascript:void(0)" class="rounded">Business</a>
-                                    <a href="jvascript:void(0)" class="rounded">Finance</a>
-                                    <a href="jvascript:void(0)" class="rounded">Marketing</a>
-                                    <a href="jvascript:void(0)" class="rounded">Fashion</a>
-                                    <a href="jvascript:void(0)" class="rounded">Bride</a>
-                                    <a href="jvascript:void(0)" class="rounded">Lifestyle</a>
-                                    <a href="jvascript:void(0)" class="rounded">Travel</a>
-                                    <a href="jvascript:void(0)" class="rounded">Beauty</a>
-                                    <a href="jvascript:void(0)" class="rounded">Video</a>
-                                    <a href="jvascript:void(0)" class="rounded">Audio</a>
-                                </div>--%>
+                                <asp:CheckBoxList ID="chklCity" runat="server" RepeatDirection="Horizontal" RepeatColumns="2" CellPadding="10" AutoPostBack="True" OnSelectedIndexChanged="chklCity_SelectedIndexChanged"></asp:CheckBoxList>
+                                <h5 class="widget-title mt-3">Speciality</h5>
+                                <asp:CheckBoxList ID="chklSpeciality" runat="server" RepeatDirection="Horizontal" RepeatColumns="2" CellPadding="10" AutoPostBack="True" OnSelectedIndexChanged="chklSpeciality_SelectedIndexChanged"></asp:CheckBoxList>
                             </div>
                             <!-- TAG CLOUDS -->
-
 
                         </div>
                     </div>
@@ -96,20 +90,50 @@
                         <div class="section-title mb-4 ">
                             <h4 class="title mb-4">Hospital List</h4>
                         </div>
+                        <asp:Panel ID="pnlHospitalList" runat="server">
+                            <asp:Repeater ID="rptHospital" runat="server">
+                                <ItemTemplate>
 
-                        <asp:HyperLink ID="hlHospitalDetail" runat="server" NavigateUrl="~/FrontPanel/Home.aspx">
-                            <div class="features feature-bg-primary d-flex bg-white p-4 rounded-md shadow position-relative overflow-hidden m-3">
-                                <h5 class="text-body titles">1.</h5>
-                                <div class="ms-3">
-                                    <h5 class="text-body titles">Success Of Treatment</h5>
-                                    <p class="text-muted para mb-0">
-                                        City : abc <br />
-                                        Speciality : xyz
-                                    </p>
-                                </div>
+                                    <asp:HyperLink ID="hlHospitalDetail" runat="server" NavigateUrl='<%# "~/FrontPanel/HospitalDetail.aspx?HospitalID=" + Eval("HospitalID").ToString() %>'>
+                                    <div class="features feature-bg-primary d-flex bg-white p-4 rounded-md shadow position-relative overflow-hidden m-3">
+                                        <h5 class="text-body titles"><%# Eval("RowNumber") %>.</h5>
+                                        <div class="ms-3">
+                                            <h5 class="text-body titles"><%# Eval("HospitalName") %></h5>
+                                            <p class="text-muted para mb-0">
+                                                City : <%# Eval("CityName") %> <br />
+                                                Speciality : <%# Eval("SpecialityName") %>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    </asp:HyperLink>
+
+                                </ItemTemplate>
+                            </asp:Repeater>
+
+                            <div class="align-items-center" id="divPaging" runat="server">
+
+                                <nav class="pagination-container">
+                                    <div class="pagination">
+                                        <asp:LinkButton ID="lbFirst" runat="server" Text="First" CssClass="pagination-newer" OnClick="lbFirst_Click"></asp:LinkButton>
+                                        <asp:LinkButton ID="lbPrevious" runat="server" Text="<<" CssClass="pagination-newer" OnClick="lbPrevious_Click"></asp:LinkButton>
+                                        <asp:Repeater ID="rptPager" runat="server" OnItemCommand="rptPager_ItemCommand">
+                                            <ItemTemplate>
+                                                <span class="pagination-inner">
+                                                    <asp:LinkButton ID="lbPages" runat="server" Text='<%#Eval("Text") %>' CommandName="ChangePage" CommandArgument='<%# Eval("Value") %>'></asp:LinkButton>
+                                                </span>
+                                            </ItemTemplate>
+                                        </asp:Repeater>
+                                        <asp:LinkButton ID="lbNext" runat="server" Text=">>" CssClass="pagination-older" OnClick="lbNext_Click"></asp:LinkButton>
+                                        <asp:LinkButton ID="lbLast" runat="server" Text="Last" CssClass="pagination-older" OnClick="lbLast_Click"></asp:LinkButton>
+                                    </div>
+                                </nav>
+
                             </div>
-                        </asp:HyperLink>
 
+                        </asp:Panel>
+                        <asp:Panel ID="pnlHospitalEmpty" runat="server">
+                            <h4 style="text-align: center">No Hospital Found for this Filter.</h4>
+                        </asp:Panel>
 
                     </div>
                 </div>
@@ -124,5 +148,11 @@
     <!--end section-->
 </asp:Content>
 <asp:Content ID="Content4" ContentPlaceHolderID="cphScript" runat="Server">
+    <script type="text/javascript">
+        $('.pagination-inner a').on('click', function () {
+            $(this).siblings().removeClass('pagination-active');
+            $(this).addClass('pagination-active');
+        })
+    </script>
 </asp:Content>
 

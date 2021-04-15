@@ -54,29 +54,41 @@
     <!-- Start -->
     <section class="section">
         <div class="container">
-            <div class="row justify-content-center" style="margin-bottom: 50px">
+            <div class="row">
+                <div class="col-md-8 offset-md-2">
+                    <h2 class="text-center mb-4">
+                        <asp:Label ID="lblHospitalName" runat="server"></asp:Label>
+                        (<asp:Label ID="lblSpeciality" runat="server"></asp:Label>)
+                    </h2>
+                </div>
+                <div class="col-md-2" style="text-align: right">
+                    <asp:HyperLink ID="hlBack" runat="server" CssClass="btn btn-dark btn-pills m-1 ms-3" NavigateUrl="~/FrontPanel/HospitalList.aspx"><i class="uil uil-step-backward"></i> Back</asp:HyperLink>
+                </div>
+            </div>
+            <div class="row justify-content-center" style="margin-bottom: 30px">
+
                 <div class="col-12">
                     <div class="section-title pb-2">
                         <p class="text-muted" style="text-align: justify">
-                            Great doctor if you need your family member to get effective immediate assistance, emergency treatment or a simple consultation.Great doctor if you need your family member to get effective immediate assistance, emergency treatment or a simple consultation.Great doctor if you need your family member to get effective immediate assistance, emergency treatment or a simple consultation.Great doctor if you need your family member to get effective immediate assistance, emergency treatment or a simple consultation.Great doctor if you need your family member to get effective immediate assistance, emergency treatment or a simple consultation.Great doctor if you need your family member to get effective immediate assistance, emergency treatment or a simple consultation.
+                            <asp:Label ID="lblOverview" runat="server" Text="Label"></asp:Label>
                         </p>
                     </div>
                 </div>
                 <!--end col-->
             </div>
-            <div class="row justify-content-center" style="margin-bottom: 50px">
+            <div class="row justify-content-center" style="margin-bottom: 30px">
                 <div class="col-12">
                     <div class="section-title pb-2">
-                        <h4 class="title">Report : </h4>
+                        <h3 class="title">Report : </h3>
                     </div>
                 </div>
                 <div class="col-12">
                     <ul class="list-unstyled mt-4 row">
-                        <li class="mt-1 col-md-5"><i class="uil uil-arrow-right text-primary"></i>Women's health services</li>
-                        <li class="mt-1 col-md-5"><i class="uil uil-arrow-right text-primary"></i>Pregnancy care</li>
-                        <li class="mt-1 col-md-5"><i class="uil uil-arrow-right text-primary"></i>Surgical procedures</li>
-                        <li class="mt-1 col-md-5"><i class="uil uil-arrow-right text-primary"></i>Specialty care</li>
-                        <li class="mt-1 col-md-5"><i class="uil uil-arrow-right text-primary"></i>Conclusion</li>
+                        <asp:Repeater ID="rptReport" runat="server">
+                            <ItemTemplate>
+                                <li class="mt-2 col-md-5"><i class="uil uil-arrow-right text-primary"></i><%# Eval("ReportName") %></li>
+                            </ItemTemplate>
+                        </asp:Repeater>
                     </ul>
                 </div>
                 <!--end col-->
@@ -84,30 +96,34 @@
             <div class="row justify-content-center">
                 <div class="col-12">
                     <div class="section-title mb-4 pb-2">
-                        <h4 class="title mb-4">Doctors : </h4>
+                        <h3 class="title mb-4">Doctors : </h3>
                     </div>
+                    <asp:Panel ID="pnlNoDoctorFound" runat="server">
+                        <div>
+                            No doctor added in this Hospital. Please contact admin to add new doctor
+                        </div>
+                    </asp:Panel>
                 </div>
                 <!--end col-->
             </div>
             <div class="row">
-                <div class="col-xl-3 col-lg-3 col-md-6">
-                    <div class="card team border-0 rounded shadow overflow-hidden">
-                        <div class="team-img position-relative">
-                            <img src="images/doctors/01.jpg" class="img-fluid" alt="">
-                            <ul class="list-unstyled team-social mb-0">
-                                <li><a href="#" class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="facebook" class="icons"></i></a></li>
-                                <li class="mt-2"><a href="#" class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="linkedin" class="icons"></i></a></li>
-                                <li class="mt-2"><a href="#" class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="github" class="icons"></i></a></li>
-                                <li class="mt-2"><a href="#" class="btn btn-icon btn-pills btn-soft-primary"><i data-feather="twitter" class="icons"></i></a></li>
-                            </ul>
+
+                <asp:Repeater ID="rptDoctors" runat="server">
+                    <ItemTemplate>
+                        <div class="col-xl-3 col-lg-3 col-md-6">
+                            <div class="card team border-0 rounded shadow overflow-hidden">
+                                <div class="team-img position-relative">
+                                    <asp:Image ID="imgDoctorImage" runat="server" ImageUrl='<%# Eval("DoctorImage") %>' CssClass="img-fluid w-100" />
+                                </div>
+                                <div class="card-body content text-center">
+                                    <a class="title text-dark h5 d-block mb-0"><%# Eval("DoctorName") %></a>
+                                    <small class="text-muted speciality"><%# Eval("DepartmentName") %></small><br />
+                                    <small class="text-muted speciality">Experence : <%# Eval("Experince") %> years</small>
+                                </div>
+                            </div>
                         </div>
-                        <div class="card-body content text-center">
-                            <a href="#" class="title text-dark h5 d-block mb-0">Calvin Carlo</a>
-                            <small class="text-muted speciality">Eye Care</small>
-                        </div>
-                    </div>
-                </div>
-                <!--end col-->
+                    </ItemTemplate>
+                </asp:Repeater>
 
 
             </div>
@@ -116,11 +132,25 @@
                 <div class="row justify-content-center">
                     <div class="col-12">
                         <div class="section-title mb-4 pb-2">
-                            <h4 class="title mb-4">Contact Details : </h4>
+                            <h3 class="title mb-4">Contact Details : </h3>
                         </div>
                     </div>
                     <!--end col-->
                 </div>
+
+                <div class="col-lg-4 col-md-6 mt-4 mt-lg-0 pt-2 pt-lg-0">
+                    <div class="card features feature-primary text-center border-0">
+                        <div class="icon text-center rounded-md mx-auto">
+                            <i class="uil uil-map-marker h3 mb-0"></i>
+                        </div>
+                        <div class="card-body p-0 mt-3">
+                            <h5>Address</h5>
+                            <asp:HyperLink ID="hlAddress" runat="server" CssClass="link"></asp:HyperLink>
+                        </div>
+                    </div>
+                </div>
+                <!--end col-->
+
                 <div class="col-lg-4 col-md-6">
                     <div class="card features feature-primary text-center border-0">
                         <div class="icon text-center rounded-md mx-auto">
@@ -128,8 +158,7 @@
                         </div>
                         <div class="card-body p-0 mt-3">
                             <h5>Phone</h5>
-                            <p class="text-muted mt-3">Great doctor if you need your family member to get effective assistance</p>
-                            <a href="tel:+152534-468-854" class="link">+152 534-468-854</a>
+                            <asp:HyperLink ID="hlMobile" runat="server" CssClass="link"></asp:HyperLink>
                         </div>
                     </div>
                 </div>
@@ -142,30 +171,12 @@
                         </div>
                         <div class="card-body p-0 mt-3">
                             <h5>Email</h5>
-                            <p class="text-muted mt-3">Great doctor if you need your family member to get effective assistance</p>
-                            <a href="mailto:contact@example.com" class="link">contact@example.com</a>
+                            <asp:HyperLink ID="hlEmail" runat="server" CssClass="link"></asp:HyperLink>
                         </div>
                     </div>
                 </div>
                 <!--end col-->
 
-                <div class="col-lg-4 col-md-6 mt-4 mt-lg-0 pt-2 pt-lg-0">
-                    <div class="card features feature-primary text-center border-0">
-                        <div class="icon text-center rounded-md mx-auto">
-                            <i class="uil uil-map-marker h3 mb-0"></i>
-                        </div>
-                        <div class="card-body p-0 mt-3">
-                            <h5>Location</h5>
-                            <p class="text-muted mt-3">
-                                C/54 Northwest Freeway, Suite 558,
-                                <br>
-                                Houston, USA 485
-                            </p>
-                            <a href="#" class="link">View on Google map</a>
-                        </div>
-                    </div>
-                </div>
-                <!--end col-->
             </div>
             <!--end row-->
         </div>

@@ -283,6 +283,111 @@ namespace Hospital_Information.DAL
         }
         #endregion SelectByPK
 
+        #region Select By CityID SpecialityID
+        public DataTable SelectByCityIDSpecialityID(SqlString CityID, SqlString SpecialityID, SqlInt32 PageIndex, SqlInt32 PageSize)
+        {
+            using (SqlConnection objConn = new SqlConnection(ConnectionString))
+            {
+                objConn.Open();
+                using (SqlCommand objCmd = objConn.CreateCommand())
+                {
+                    try
+                    {
+                        #region Prepare Command
+                        objCmd.CommandType = CommandType.StoredProcedure;
+                        objCmd.CommandText = "PR_Hospital_SelectByCityIDSpecialityID";
+                        objCmd.Parameters.Add("@CityID", SqlDbType.VarChar).Value = CityID;
+                        objCmd.Parameters.Add("@SpecialityID", SqlDbType.VarChar).Value = SpecialityID;
+                        objCmd.Parameters.Add("@PageIndex", SqlDbType.Int).Value = PageIndex;
+                        objCmd.Parameters.Add("@PageSize", SqlDbType.Int).Value = PageSize;
+                        #endregion Prepare Command
+
+                        #region ReadData and Set Controls
+                        DataTable dt = new DataTable();
+                        using (SqlDataReader objSDR = objCmd.ExecuteReader())
+                        {
+                            dt.Load(objSDR);
+                        }
+                        return dt;
+                        #endregion ReadData and Set Controls
+                    }
+                    catch (SqlException sqlEx)
+                    {
+                        Message = sqlEx.InnerException.Message;
+                        return null;
+                    }
+                    catch (Exception ex)
+                    {
+                        Message = ex.InnerException.Message;
+                        return null;
+                    }
+                    finally
+                    {
+                        if (objConn.State == ConnectionState.Open)
+                        {
+                            objConn.Close();
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Select By CityID SpecialityID
+
+        #region Select By CityID SpecialityID RecordCount
+        public Int32 SelectByCityIDSpecialityIDRecordCount(SqlString CityID, SqlString SpecialityID)
+        {
+            using (SqlConnection objConn = new SqlConnection(ConnectionString))
+            {
+                objConn.Open();
+                using (SqlCommand objCmd = objConn.CreateCommand())
+                {
+                    try
+                    {
+                        #region Prepare Command
+                        objCmd.CommandType = CommandType.StoredProcedure;
+                        objCmd.CommandText = "PR_Hospital_SelectByCityIDSpecialityIDForRecordCount";
+                        objCmd.Parameters.Add("@CityID", SqlDbType.VarChar).Value = CityID;
+                        objCmd.Parameters.Add("@SpecialityID", SqlDbType.VarChar).Value = SpecialityID;
+                        #endregion Prepare Command
+
+                        #region ReadData and Set Controls
+                        Int32 recordCount = 0;
+
+                        using (SqlDataReader objSDR = objCmd.ExecuteReader())
+                        {
+                            while (objSDR.Read())
+                            {
+                                if (!objSDR["RecordCount"].Equals(DBNull.Value))
+                                {
+                                    recordCount = Convert.ToInt32(objSDR["RecordCount"]);
+                                }
+                            }
+                        }
+                        return recordCount;
+                        #endregion ReadData and Set Controls
+                    }
+                    catch (SqlException sqlEx)
+                    {
+                        Message = sqlEx.InnerException.Message;
+                        return 0;
+                    }
+                    catch (Exception ex)
+                    {
+                        Message = ex.InnerException.Message;
+                        return 0;
+                    }
+                    finally
+                    {
+                        if (objConn.State == ConnectionState.Open)
+                        {
+                            objConn.Close();
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Select By CityID SpecialityID RecordCount
+
         #endregion Select Opertaion
     }
 }

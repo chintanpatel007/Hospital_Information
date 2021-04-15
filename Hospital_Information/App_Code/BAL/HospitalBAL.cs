@@ -103,6 +103,22 @@ namespace Hospital_Information.BAL
         }
         #endregion SelectByPK
 
+        #region SelectByCityIDSpecialityID
+        public DataTable SelectByCityIDSpecialityID(SqlString CityID, SqlString SpecialityID, SqlInt32 PageIndex, SqlInt32 PageSize)
+        {
+            HospitalDAL dalHospital = new HospitalDAL();
+            return dalHospital.SelectByCityIDSpecialityID(CityID, SpecialityID, PageIndex, PageSize);
+        }
+        #endregion SelectByCityIDSpecialityID
+
+        #region Select By CityID SpecialityID RecordCount
+        public Int32 SelectByCityIDSpecialityIDRecordCount(SqlString CityID, SqlString SpecialityID)
+        {
+            HospitalDAL dalHospital = new HospitalDAL();
+            return dalHospital.SelectByCityIDSpecialityIDRecordCount(CityID, SpecialityID);
+        }
+        #endregion Select By CityID SpecialityID RecordCount
+
         #endregion Select Opertaion
     }
 }
